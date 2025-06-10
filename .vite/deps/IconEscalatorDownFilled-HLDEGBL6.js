@@ -1,0 +1,9 @@
+import {
+  IconEscalatorDownFilled
+} from "./chunk-I5GRLRR4.js";
+import "./chunk-VU2LA4OZ.js";
+import "./chunk-4X6FFAZQ.js";
+import "./chunk-EWTE5DHJ.js";
+export {
+  IconEscalatorDownFilled as default
+};

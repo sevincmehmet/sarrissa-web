@@ -110,7 +110,7 @@ const Index = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-6 py-5 bg-white shadow-lg rounded-xl mb-8">
+      <nav className="flex items-center justify-between px-6 py-5 bg-white shadow-lg rounded-xl mb-8 sticky top-0">
         <span className="flex items-center font-extrabold text-3xl text-slate-900 gap-3">
           <IconShoppingBag className="text-orange-500" size={32} />
           Siparişler

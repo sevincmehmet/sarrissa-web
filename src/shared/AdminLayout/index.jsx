@@ -7,6 +7,7 @@ import {
   IconManualGearboxFilled,
   IconMenu2,
   IconSettings2,
+  IconShoppingBag,
   IconUsers,
   IconX,
   IconZoomInArea,
@@ -24,7 +25,7 @@ const Sidebar = ({ children }) => {
       id: "0",
       pathname: "/admin",
       label: "Siparişler",
-      icon: <IconLayoutDashboard className="w-5 h-5 min-w-5 min-h-5s" />,
+      icon: <IconShoppingBag className="w-5 h-5 min-w-5 min-h-5s" />,
     },
     {
       id: "1",

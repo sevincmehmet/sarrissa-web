@@ -1,10 +1,15 @@
 import React from "react";
 import Table from "../../component/Table";
-import { IconPencil, IconPlus, IconTrash } from "@tabler/icons-react";
+import {
+  IconPencil,
+  IconPlus,
+  IconTrash,
+  IconUsers,
+} from "@tabler/icons-react";
 import { useModal } from "../../hooks/useModal";
 import Modal from "../../component/Modal";
 import { useMessageBox } from "../../context/MessageBox";
-import LocationSelect from '../../component/LocationSelect'
+import LocationSelect from "../../component/LocationSelect";
 const index = () => {
   const { openMessageBox } = useMessageBox();
   const addUserModal = useModal();
@@ -19,21 +24,21 @@ const index = () => {
     ],
     rows: [
       {
-        id:'1',
+        id: "1",
         username: "Mehmet",
         phone: "617363128",
         email: "sajf@gmail.com",
         City: "Sivas",
       },
       {
-        id:'2',
+        id: "2",
         username: "Mehmet",
         phone: "617363128",
         email: "sajf@gmail.com",
         City: "Sivas",
       },
       {
-        id:'3',
+        id: "3",
         username: "Mehmet",
         phone: "617363128",
         email: "sajf@gmail.com",
@@ -84,10 +89,12 @@ const index = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-4 py-3 bg-white shadow-sm rounded-md mb-4 h-[62px]">
-        <span className="font-semibold text-xl text-orange-500">
+      <nav className="flex items-center justify-between px-6 py-5 bg-white shadow-lg rounded-xl mb-8 sticky top-0">
+        <span className="flex items-center font-extrabold text-3xl text-slate-900 gap-3">
+          <IconUsers className="text-orange-500" size={32} />
           Müşteriler
         </span>
+
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -111,9 +118,7 @@ const index = () => {
           addUserModal.closeModal();
         }}
       >
-      <LocationSelect />
-
-
+        <LocationSelect />
       </Modal>
     </>
   );

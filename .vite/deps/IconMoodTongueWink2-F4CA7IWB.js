@@ -1,0 +1,9 @@
+import {
+  IconMoodTongueWink2
+} from "./chunk-XL2NG77S.js";
+import "./chunk-VU2LA4OZ.js";
+import "./chunk-4X6FFAZQ.js";
+import "./chunk-EWTE5DHJ.js";
+export {
+  IconMoodTongueWink2 as default
+};

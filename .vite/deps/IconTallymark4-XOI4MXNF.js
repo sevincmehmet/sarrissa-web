@@ -1,0 +1,9 @@
+import {
+  IconTallymark4
+} from "./chunk-SUZ2RYTH.js";
+import "./chunk-VU2LA4OZ.js";
+import "./chunk-4X6FFAZQ.js";
+import "./chunk-EWTE5DHJ.js";
+export {
+  IconTallymark4 as default
+};
