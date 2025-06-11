@@ -1,7 +1,7 @@
 import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
-import { IconPencil, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconPencil, IconPlus, IconTrash, IconZoomInArea } from "@tabler/icons-react";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Table from "../../component/Table";
 import { useMessageBox } from "../../context/MessageBox";
@@ -188,8 +188,11 @@ const Index = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-4 py-3 bg-white shadow-sm rounded-md mb-4 h-[62px]">
-        <span className="font-semibold text-xl text-orange-500">Ürünler</span>
+      <nav className="flex items-center justify-between px-6 py-5 bg-white shadow-lg rounded-xl mb-8 sticky top-0 z-50">
+        <span className="flex items-center font-extrabold text-3xl text-slate-900 gap-3">
+          <IconZoomInArea className="text-orange-500" size={32} />
+          Ürünler
+        </span>
         <button
           onClick={() => setOpen(true)}
           className="flex items-center gap-2 rounded-md border border-orange-300 bg-white px-4 py-2 text-sm font-medium text-orange-500 hover:bg-orange-500 hover:text-white hover:shadow-md transition cursor-pointer"
@@ -199,7 +202,7 @@ const Index = () => {
         </button>
       </nav>
 
-      <div className="h-[calc(100vh-7.5rem)]">
+      <div className="h-[calc(100vh-9rem)]">
         <Table tableData={tableData} menuItems={menuItems} />
       </div>
 

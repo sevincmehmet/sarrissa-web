@@ -23,14 +23,14 @@ const Index = ({ tableData, menuItems = [] }) => {
       <DataGrid
         rows={tableData.rows}
         columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
+        //initialState={{
+        //  pagination: {
+        //    paginationModel: {
+        //      pageSize: 10,
+        //    },
+        //  },
+        //}}
+       // pageSizeOptions={[5, 10]}
         disableRowSelectionOnClick
       />
     </Box>

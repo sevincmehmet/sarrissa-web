@@ -107,7 +107,7 @@ const index = () => {
         </button>
       </nav>
 
-      <div className="h-[calc(100vh-7.5rem)]">
+      <div className="h-[calc(100vh-9rem)]">
         <Table tableData={tableData} menuItems={menuItems} />
       </div>
       <Modal

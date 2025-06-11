@@ -36,7 +36,7 @@ const Sidebar = ({ children }) => {
     {
       id: "2",
       pathname: "/admin/categories",
-      label: "Katagoriler",
+      label: "Kategoriler",
       icon: <IconBinaryTree className="w-5 h-5 min-w-5 min-h-5s" />,
     },
     {

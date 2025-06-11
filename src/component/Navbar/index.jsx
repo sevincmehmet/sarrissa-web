@@ -9,6 +9,7 @@ import {
   IconPlus,
   IconMinus,
   IconMenu2,
+  IconShoppingCart,
 } from "@tabler/icons-react";
 
 import { useCardData } from "../../context/CartContext";
@@ -25,11 +26,20 @@ const Navbar = ({ showFixedNav }) => {
   const [anchorCart, setAnchorCart] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const totalPrice = cardItems.reduce((acc, item) => {
+    const price = parseInt(item.trendyol_salePrice);
+    return acc + item.quantity * price;
+  }, 0);
+
   useEffect(() => {
     const stored = localStorage.getItem("cardItem");
     if (stored) {
       try {
         setCardItems(JSON.parse(stored));
+        totalPrice = JSON.parse(stored).reduce((acc, item) => {
+          const price = parseInt(item.trendyol_salePrice);
+          return acc + item.quantity * price;
+        }, 0);
       } catch (err) {
         console.error("JSON parse hatası:", err);
       }
@@ -131,6 +141,7 @@ const Navbar = ({ showFixedNav }) => {
                   </div>
                 )}
               </button>
+
               <Popover
                 open={Boolean(anchorCart)}
                 anchorEl={anchorCart}
@@ -138,79 +149,142 @@ const Navbar = ({ showFixedNav }) => {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 transformOrigin={{ vertical: "top", horizontal: "center" }}
                 PaperProps={{
-                  sx: { width: 400, borderRadius: 2, boxShadow: 3 },
+                  sx: {
+                    width: 440,
+                    borderRadius: 4,
+                    boxShadow: 6,
+                    bgcolor: "background.paper",
+                    p: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 480,
+                  },
                 }}
               >
-                <div className="p-4">
+                {/* Başlık - Sabit */}
+                <div className="flex items-center justify-between gap-2 border-b border-gray-300 p-4 flex-shrink-0">
+                  <div className="flex items-center">
+                    <IconShoppingCart
+                      size={28}
+                      stroke={1.5}
+                      className="text-green-600 mr-2"
+                    />
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      Sepetim ({totalItems})
+                    </h3>
+                  </div>
+                  <span>
+                    Toplam:
+                    <span className="ml-2 text-green-700">{totalPrice} TL</span>
+                  </span>
+                </div>
+
+                {/* Ürün Listesi - Scrollable */}
+                <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50">
                   {totalItems > 0 ? (
-                    <div className="flex flex-col gap-4 max-h-[400px] overflow-y-auto">
-                      <div className="font-semibold text-lg mb-2">
-                        Sepetim ({totalItems})
-                      </div>
-                      {cardItems.map((item) => (
-                        <div
-                          key={item.cardId}
-                          className="flex justify-between items-start gap-2 bg-gray-50 p-3 rounded-lg shadow-sm"
-                        >
-                          <img
-                            src={item.Image1}
-                            alt=""
-                            className="h-16 object-contain"
-                          />
-                          <div className="flex flex-col gap-1 flex-1">
-                            <div className="text-sm font-medium">
-                              {item.Brand}{" "}
-                              <span className="font-normal">{item.Name}</span>
-                            </div>
-                            <div className="flex items-center justify-between mt-2">
-                              <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-full border">
-                                <button
-                                  onClick={() =>
-                                    handleQuantityChange(item.cardId, false)
-                                  }
-                                >
-                                  <IconMinus size={14} />
-                                </button>
-                                <span className="text-sm font-medium">
-                                  {item.quantity}
-                                </span>
-                                <button
-                                  onClick={() =>
-                                    handleQuantityChange(item.cardId, true)
-                                  }
-                                >
-                                  <IconPlus size={14} />
-                                </button>
-                              </div>
-                              <span className="text-sm text-rose-500 font-semibold">
-                                {item.quantity *
-                                  parseInt(item.trendyol_salePrice)}{" "}
-                                TL
+                    cardItems.map((item) => (
+                      <div
+                        key={item.cardId}
+                        onClick={() => navigate(`/product/${item.Product_id}`)}
+                        className="flex items-start gap-5 p-5 rounded-2xl bg-white shadow transition hover:shadow-md group cursor-pointer"
+                      >
+                        <img
+                          src={item.Image1}
+                          alt={item.Name}
+                          className="w-24 h-24 object-contain rounded-lg border border-gray-200 bg-gray-50"
+                        />
+
+                        <div className="flex flex-col flex-1 space-y-3">
+                          <div className="flex justify-between items-start">
+                            <div className="space-y-1">
+                              <p className="text-gray-900 font-semibold text-base line-clamp-1">
+                                {item.Name}
+                              </p>
+                              <span className="text-sm text-gray-500">
+                                {item.Brand}
                               </span>
                             </div>
+
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete(item.cardId);
+                              }}
+                              aria-label="Ürünü sil"
+                              className="hidden group-hover:block p-2 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-100 transition"
+                            >
+                              <IconTrash size={20} stroke={2} />
+                            </button>
                           </div>
-                          <button onClick={() => handleDelete(item.cardId)}>
-                            <IconTrash className="text-rose-500 hover:text-rose-600 transition" />
-                          </button>
+
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-3 bg-gray-100 rounded-full px-4 py-1.5">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleQuantityChange(item.cardId, false);
+                                }}
+                                className="text-gray-600 hover:text-red-500 transition"
+                                aria-label="Azalt"
+                              >
+                                <IconMinus size={16} stroke={2} />
+                              </button>
+
+                              <span className="text-sm font-medium text-gray-800">
+                                {item.quantity}
+                              </span>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleQuantityChange(item.cardId, true);
+                                }}
+                                className="text-gray-600 hover:text-green-600 transition"
+                                aria-label="Arttır"
+                              >
+                                <IconPlus size={16} stroke={2} />
+                              </button>
+                            </div>
+
+                            <span className="text-lg font-semibold text-green-700">
+                              {(
+                                item.quantity *
+                                parseInt(item.trendyol_salePrice)
+                              ).toLocaleString("tr-TR")}{" "}
+                              TL
+                            </span>
+                          </div>
                         </div>
-                      ))}
-                      <div className="flex justify-between pt-4 border-t">
-                        <button
-                          onClick={resetCart}
-                          className="text-sm text-rose-500 hover:underline"
-                        >
-                          Sepeti Temizle
-                        </button>
-                        <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition text-sm">
-                          Onayla
-                        </button>
                       </div>
-                    </div>
+                    ))
                   ) : (
-                    <div className="text-center text-sm text-gray-600">
-                      Sepetinizde ürün bulunmamaktadır.
+                    <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                      <IconShoppingCart
+                        size={48}
+                        stroke={1.5}
+                        className="mb-4"
+                      />
+                      <p className="text-lg">
+                        Sepetinizde ürün bulunmamaktadır.
+                      </p>
                     </div>
                   )}
+                </div>
+
+                {/* Alt Kısım - Sabit */}
+                <div className=" border-t border-gray-300 flex-shrink-0">
+                  <div className="flex justify-between items-center p-4 ">
+                    <button
+                      onClick={resetCart}
+                      className="text-sm text-red-600 hover:underline font-semibold transition"
+                    >
+                      Sepeti Temizle
+                    </button>
+
+                    <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold shadow-lg">
+                      Siparişi Onayla
+                    </button>
+                  </div>
                 </div>
               </Popover>
             </div>

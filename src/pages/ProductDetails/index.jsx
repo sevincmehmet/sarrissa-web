@@ -54,24 +54,45 @@ const Index = () => {
     setIsAnimating(true);
 
     try {
-      const itemToAdd = {
-        ...product,
-        cardId: uuidv4(),
-        quantity: 1,
-      };
       const storedCart = localStorage.getItem("cardItem");
       const existingCart = storedCart ? JSON.parse(storedCart) : [];
-      const updatedCart = [...existingCart, itemToAdd];
+
+      // Aynı ürün sepette var mı kontrol et (id bazlı karşılaştırma)
+      const existingIndex = existingCart.findIndex(
+        (item) => item.id === product.id
+      );
+
+      let updatedCart;
+
+      if (existingIndex !== -1) {
+        // Ürün zaten sepette, quantity artır
+        const updatedItem = {
+          ...existingCart[existingIndex],
+          quantity: existingCart[existingIndex].quantity + 1,
+        };
+
+        updatedCart = [...existingCart];
+        updatedCart[existingIndex] = updatedItem;
+      } else {
+        // Yeni ürün ekle
+        const newItem = {
+          ...product,
+          cardId: uuidv4(),
+          quantity: 1,
+        };
+
+        updatedCart = [...existingCart, newItem];
+      }
+
       localStorage.setItem("cardItem", JSON.stringify(updatedCart));
       setCardItems(updatedCart);
-      setTimeout(() => setIsAnimating(false), 500);
+      console.log("🧡 Sepete eklendi!");
     } catch (error) {
-      console.error("Sepete eklenirken hata oluştu:", error);
+      console.error("🚨 Sepete eklenirken hata oluştu:", error);
       localStorage.removeItem("cardItem");
+    } finally {
       setTimeout(() => setIsAnimating(false), 500);
     }
-
-    console.log("🧡 Sepete eklendi!");
   };
 
   const handleBuyNow = () => {

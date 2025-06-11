@@ -7,7 +7,6 @@ import AdminDashboard from "./AdminPages/Dashboard";
 import AdminLayout from "./shared/AdminLayout";
 import Unauthorized from "./pages/Unauthorized";
 import ProductDetail from "./pages/ProductDetails";
-import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Products from "./AdminPages/Products";
 import Customers from "./AdminPages/Customers";
 import Categories from "./AdminPages/Categories";
@@ -23,46 +22,52 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <CardProvider>
-        <MessageBoxProvider>
-          <BrowserRouter>
+      <MessageBoxProvider>
+        <BrowserRouter>
+          <CardProvider>
             <Routes>
+              {/* Yetkisiz erişim sayfası */}
               <Route path="/unauthorized" element={<Unauthorized />} />
 
+              {/* Giriş gerektirmeyen kullanıcı sayfaları */}
+              <Route element={<Layout />}>
+                <Route path="/login" element={<AuthPage activeTab="login" />} />
+                <Route
+                  path="/register"
+                  element={<AuthPage activeTab="register" />}
+                />
+                <Route path="product/:id" element={<ProductDetail />} />
+                <Route
+                  path="categories/:subCate"
+                  element={<CategoriesPage />}
+                />
+              </Route>
+
+              {/* Kullanıcı dashboard */}
               <Route path="/" element={<DashLayout />}>
                 <Route index element={<Dashboard />} />
               </Route>
 
+              {/* Giriş yapılması gereken kullanıcı sayfaları */}
               <Route element={<PrivateRoute allowedRoles={["user"]} />}>
-                <Route path="/" element={<Layout />}>
-                  <Route
-                    path="/login"
-                    element={<AuthPage activeTab="login" />}
-                  />
-                  <Route
-                    path="/register"
-                    element={<AuthPage activeTab="register" />}
-                  />
-                  <Route path="product/:id" element={<ProductDetail />} />
-                  <Route
-                    path="categories/:subCate"
-                    element={<CategoriesPage />}
-                  />
-                </Route>
+                <Route path="/user-panel" element={<h1>Kullanıcı Paneli</h1>} />
               </Route>
 
+              {/* Admin login - herkes erişebilir */}
+              <Route
+                path="/admin/login"
+                element={<AuthPage activeTab="admin/login" />}
+              />
+
+              {/* Giriş yapılması gereken admin sayfaları */}
               <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
                 <Route
-                  path="/admin/"
+                  path="/admin"
                   element={
                     <AdminLayout>
                       <AdminDashboard />
                     </AdminLayout>
                   }
-                />
-                <Route
-                  path="/admin/login"
-                  element={<AuthPage activeTab="admin/login" />}
                 />
                 <Route
                   path="/admin/customers"
@@ -98,9 +103,9 @@ function App() {
                 />
               </Route>
             </Routes>
-          </BrowserRouter>
-        </MessageBoxProvider>
-      </CardProvider>
+          </CardProvider>
+        </BrowserRouter>
+      </MessageBoxProvider>
     </>
   );
 }

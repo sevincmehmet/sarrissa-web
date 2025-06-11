@@ -11,6 +11,7 @@ import {
   IconPencil,
   IconTrash,
   IconPaperclip,
+  IconBinaryTree,
 } from "@tabler/icons-react";
 import Box from "@mui/material/Box";
 import { useMessageBox } from "../../context/MessageBox";
@@ -304,9 +305,10 @@ const Index = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-4 py-3 bg-white shadow-sm rounded-md mb-4 h-[62px]">
-        <span className="font-semibold text-xl text-orange-500">
-          Katagoriler
+      <nav className="flex items-center justify-between px-6 py-5 bg-white shadow-lg rounded-xl mb-8 sticky top-0 z-50">
+        <span className="flex items-center font-extrabold text-3xl text-slate-900 gap-3">
+          <IconBinaryTree className="text-orange-500" size={32} />
+          Kategoriler
         </span>
         <button
           onClick={(e) => {

@@ -5,7 +5,7 @@ import AuthTabs from "./AuthTabs";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../component/Footer";
 import { motion } from "framer-motion";
-import AppLogo from "../../assets/AppLogo.png";
+import AppLogo from "../../assets/AppLogo2.png";
 const Index = ({ activeTab }) => {
   const navigate = useNavigate();
 
@@ -26,17 +26,13 @@ const Index = ({ activeTab }) => {
       >
         <div
           className={` flex ${
-            isAdmin ? "items-center" : "items-start"
+            isAdmin ? "items-center fixed top-0 left-0 right-0 bottom-0" : "items-start"
           } mt-8 justify-center  px-4`}
         >
           <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg shadow-slate-100 border border-slate-200 ">
             {isAdmin ? (
-              <div className="flex bg-slate-100 rounded-lg p-1">
-                <img
-                  className="flex-1 h-[36px] text-center py-2 text-sm font-medium rounded-md transition-all duration-300 bg-white shadow text-rose-400"
-                  src={AppLogo}
-                  alt=""
-                />
+              <div className="flex items-center justify-center">
+                <img className="h-[8rem]" src={AppLogo} alt="" />
               </div>
             ) : (
               <AuthTabs
@@ -45,7 +41,11 @@ const Index = ({ activeTab }) => {
               />
             )}
             <div className="mt-6">
-              {activeTab === "login" ? <LoginForm /> : <RegisterForm />}
+              {activeTab === "login" || isAdmin ? (
+                <LoginForm isAdmin={isAdmin} />
+              ) : (
+                <RegisterForm />
+              )}
             </div>
           </div>
         </div>
